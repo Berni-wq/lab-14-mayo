@@ -1,6 +1,29 @@
 # lab-14-mayo
 Parte 1: N-Reinas y Complejidad Espacial en Tiempo Constante
 
+ANÁLISIS DE PUNTOS CRÍTICOS Y ERRORES COMUNES 
+
+1. Error en el Tamaño de los Arreglos (Índices fuera de rango)
+Un fallo común es no calcular correctamente el tamaño de los arreglos unidimensionales necesarios para la optimización:
+- Columnas (cols): Debe ser de tamaño N.
+- Diagonales (diag y anti): Para un tablero de N x N, existen 2N - 1 diagonales.
+- El Riesgo: Si se declaran las diagonales con tamaño N, el programa lanzará un error de "index out of bounds" (índice fuera de rango) al intentar acceder a posiciones calculadas como 'row + col' o 'row - col + N - 1'.
+
+2. El "Desfase" en la Diagonal Principal
+La guía de laboratorio exige el uso de la fórmula: diag[i - j + N - 1].
+- El Fallo: Si el programador intenta usar únicamente 'i - j', obtendrá valores negativos (por ejemplo, en la fila 0, columna 7: 0 - 7 = -7). Los índices de un arreglo no pueden ser negativos en la mayoría de los lenguajes de programación.
+- Solución: Es obligatorio sumar el desplazamiento '+ N - 1' para asegurar que todos los índices resultantes sean positivos y mapeen correctamente al arreglo unidimensional.
+
+3. Confusión entre Nodos Visitados y Soluciones
+El entregable de la Parte 1 solicita explícitamente el número total de NODOS VISITADOS para N=8 y N=12.
+- El Fallo: Un error recurrente es imprimir el número de soluciones encontradas (por ejemplo, 92 para N=8) en lugar de la cantidad total de llamadas recursivas realizadas por el algoritmo.
+- Requerimiento: Se debe implementar un contador global que se incremente al inicio de cada función recursiva. Esto es fundamental para evidenciar la reducción de llamadas gracias a la poda algebraica y de factibilidad.
+
+4. No usar la Validación en Tiempo Constante
+La rúbrica de evaluación penaliza el uso de bucles (for o while) para revisar la disponibilidad de las diagonales.
+- El Fallo: Aunque un código con bucles funcione, no cumple con el objetivo de optimización espacial y temporal O(1).
+- Solución Correcta: La validación debe ser una instrucción 'if' simple que consulte directamente los arreglos booleanos: 
+  'if not cols[j] and not diag[i - j + N - 1] and not anti[i + j]:'
 
 
 
